@@ -28,7 +28,9 @@ class diff_image(threading.Thread):  # класс по сравнению кар
             self.queue.task_done()
 
     def difference_images(self, img1, img2):
-        if magic.from_file(img1, mime=True).find('image') == -1 or magic.from_file(img2, mime=True).find('image') == -1\
+        if os.path.isdir(img1) or os.path.isdir(img2) \
+                or magic.from_file(img1, mime=True).find('image') == -1 \
+                or magic.from_file(img2, mime=True).find('image') == -1\
                 or magic.from_file(img1, mime=True) != magic.from_file(img2, mime=True):
             return
         image_1 = Image.open(img1)
