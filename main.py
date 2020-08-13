@@ -30,7 +30,7 @@ class diff_image(threading.Thread):  # класс по сравнению кар
     def difference_images(self, img1, img2):
         if os.path.isdir(img1) or os.path.isdir(img2) \
                 or magic.from_file(img1, mime=True).find('image') == -1 \
-                or magic.from_file(img2, mime=True).find('image') == -1\
+                or magic.from_file(img2, mime=True).find('image') == -1 \
                 or magic.from_file(img1, mime=True) != magic.from_file(img2, mime=True):
             return
         image_1 = Image.open(img1)
@@ -43,13 +43,19 @@ class diff_image(threading.Thread):  # класс по сравнению кар
 
         if result == None:
             print(img1, img2, 'matches')
-            image_1.show()
-            image_2.show()
+            # image_1.show()
+            # image_2.show()
         return
 
 
 def main(path):
     imgs = os.listdir(path)  # Получаем список картинок
+    for pathImgs in imgs:
+        if (os.path.isdir(path+pathImgs)):
+            imges = os.listdir(path+pathImgs)
+            for index in range(len(imges)):
+                imges[index] = pathImgs+'/' + imges[index]
+            imgs+=imges
     queue = Queue()
 
     # Запускаем поток и очередь
